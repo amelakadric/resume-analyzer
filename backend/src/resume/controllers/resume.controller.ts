@@ -10,7 +10,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { Resume } from 'src/shared/database/repositories/resume.schema';
+import { Resume } from 'src/shared/database/schemas/resume.schema';
 
 @Controller('resume')
 export class ResumeController {

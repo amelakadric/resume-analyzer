@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Resume } from 'src/shared/database/repositories/resume.schema';
-import { ResumeRepository } from 'src/shared/database/schemas/resume.repository';
+import { Resume } from 'src/shared/database/schemas/resume.schema';
+import { ResumeRepository } from 'src/shared/database/repositories/resume.repository';
 
 @Injectable()
 export class ResumeService {
