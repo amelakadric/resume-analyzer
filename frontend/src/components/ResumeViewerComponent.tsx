@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ViewerContainer = styled.div`
   width: 100%;
-  height: 500px;
+  height: 800px;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
