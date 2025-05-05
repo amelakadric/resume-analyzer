@@ -4,19 +4,20 @@ import { useState } from "react";
 
 type ResumeComponentProps = {
   handleSetResume: (file: File) => void;
-  handleSubmit: () => void;
 };
 
 const ResumeComp = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: start;
+  margin: 1rem;
 `;
 
 const FileInput = styled.input`
   display: block;
   width: 400px;
-  padding: 0.5rem;
+  padding: 1rem;
+  padding-left: 9rem;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
@@ -36,22 +37,7 @@ const FileInput = styled.input`
   }
 `;
 
-const Button = styled.button`
-  width: 60%;
-  margin: 1rem auto;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  background-color: rgb(136, 174, 223);
-  &:hover {
-    background-color: rgb(108, 145, 194);
-  }
-`;
-
-function ResumeComponent({
-  handleSetResume,
-  handleSubmit,
-}: ResumeComponentProps) {
+function ResumeComponent({ handleSetResume }: ResumeComponentProps) {
   const [resumeUrl, setResumeUrl] = useState<string>("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -67,10 +53,14 @@ function ResumeComponent({
   return (
     <>
       <ResumeComp>
-        <FileInput type="file" onChange={(e) => handleChange(e)} />
-        <Button type="button" onClick={handleSubmit}>
-          Submit
-        </Button>
+        <h2>Resume</h2>
+        <FileInput
+          name="resume"
+          id="resume"
+          type="file"
+          onChange={(e) => handleChange(e)}
+        />
+
         {resumeUrl && <ResumeViewerComponent resumeUrl={resumeUrl} />}
       </ResumeComp>
     </>
