@@ -16,10 +16,13 @@ export class AnalysisRepository {
 
   async create(analysisDto: AnalysisDto): Promise<Analysis> {
     try {
-      return await this.analysisModel.create({
+      const analysis = new this.analysisModel({
         jobDescription: analysisDto.jobDescription,
         resume: new Types.ObjectId(analysisDto.resumeId),
       });
+
+      const savedAnalysis = await analysis.save();
+      return await savedAnalysis.populate('resume');
     } catch (error) {
       throw new InternalServerErrorException();
     }
