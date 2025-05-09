@@ -4,9 +4,21 @@ export type AnalysisRequest = {
 };
 
 export type AnalysisResponse = {
-  _id: string;
-  jobDescription: string;
-  resume: string;
-  createdAt: string;
-  updatedAt: string;
+  summary: {
+    title: string;
+    content: string;
+  };
+  matchPercentage: number;
+  matchingSkills: {
+    title: string;
+    items: string[];
+  };
+  gaps: {
+    title: string;
+    items: string[];
+  };
+  improvements: {
+    title: string;
+    items: string[];
+  };
 };

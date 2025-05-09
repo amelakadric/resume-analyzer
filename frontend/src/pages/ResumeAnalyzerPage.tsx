@@ -6,6 +6,7 @@ import JobDescriptionComponent from "../components/JobDescriptionComponent";
 import { postAnalysis } from "../services/analysisService";
 import { AnalysisRequest, AnalysisResponse } from "../types/analysis.types";
 import { ResumeUploadResponse } from "../types/resume.types";
+import AnalysisResultComponent from "../components/AnalysisResultComponent";
 
 const ResumePage = styled.div`
   display: flex;
@@ -20,23 +21,28 @@ const Button = styled.button`
   border-radius: 0.5rem;
   border: none;
   background-color: rgb(136, 174, 223);
+  color: white;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
   &:hover {
     background-color: rgb(108, 145, 194);
   }
-  &.inactive {
+
+  &:disabled {
     background-color: rgb(200, 200, 200);
     color: rgb(120, 120, 120);
     cursor: not-allowed;
-
-    &:hover {
-      background-color: rgb(200, 200, 200); /* No hover effect when inactive */
-    }
   }
 `;
 
 function ResumeAnalyzerPage() {
   const [resume, setResume] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResponse | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleSetJobDescription(newJobDescription: string) {
     console.log(newJobDescription);
@@ -48,6 +54,7 @@ function ResumeAnalyzerPage() {
   }
 
   async function handleSubmit() {
+    setIsLoading(true);
     try {
       if (resume) {
         const formData = new FormData();
@@ -59,10 +66,15 @@ function ResumeAnalyzerPage() {
           jobDescription: jobDescription,
         };
 
-        return (await postAnalysis(analysisData)) as AnalysisResponse;
+        const analysisResponse = (await postAnalysis(
+          analysisData
+        )) as AnalysisResponse;
+        setAnalysisResult(analysisResponse);
       }
     } catch (error) {
       console.log("Error uploading resume");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -79,10 +91,15 @@ function ResumeAnalyzerPage() {
       <Button
         type="button"
         onClick={handleSubmit}
-        className={!jobDescription || !resume ? "inactive" : ""}
+        disabled={isLoading || !resume || !jobDescription}
       >
-        Analyze
+        {isLoading ? "Analyzing..." : "Analyze"}
       </Button>
+
+      <AnalysisResultComponent
+        analysis={analysisResult}
+        isLoading={isLoading}
+      />
     </>
   );
 }
