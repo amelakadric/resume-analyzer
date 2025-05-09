@@ -1,9 +1,4 @@
-export type AnalysisRequest = {
-  resumeId: string;
-  jobDescription: string;
-};
-
-export type AnalysisResponse = {
+export interface AnalysisResponse {
   summary: {
     title: string;
     content: string;
@@ -21,4 +16,4 @@ export type AnalysisResponse = {
     title: string;
     items: string[];
   };
-};
+}
