@@ -6,35 +6,61 @@ type ResumeComponentProps = {
   handleSetResume: (file: File) => void;
 };
 
-const ResumeComp = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
+const Title = styled.h2`
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+`;
+
+const Description = styled.p`
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  max-width: 31rem;
+  line-height: 1.5;
+`;
+
+const Div = styled.div`
   margin: 1rem;
 `;
 
-const FileInput = styled.input`
-  display: block;
-  width: 400px;
-  padding: 1rem;
-  padding-left: 9rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+const Input = styled.input`
+  display: none;
+`;
 
-  &:focus {
-    outline: none;
-    border-color: rgb(168, 197, 228);
+const Label = styled.label`
+  display: block;
+  width: 31rem;
+  height: 200px;
+  background-color: rgb(246, 243, 240);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  box-sizing: border-box;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
-  &::file-selector-button {
-    border-radius: 0.5rem;
-    border: none;
-    padding: 0.5rem;
-    background-color: rgb(136, 174, 223);
-  }
-  &::file-selector-button:hover {
-    background-color: rgb(108, 145, 194);
-  }
+`;
+
+const UploadIcon = styled.div`
+  font-size: 2rem;
+  color: #666;
+`;
+
+const UploadText = styled.span`
+  color: #666;
+  font-size: 1rem;
 `;
 
 function ResumeComponent({ handleSetResume }: ResumeComponentProps) {
@@ -51,19 +77,26 @@ function ResumeComponent({ handleSetResume }: ResumeComponentProps) {
   }
 
   return (
-    <>
-      <ResumeComp>
-        <h2>Resume</h2>
-        <FileInput
-          name="resume"
-          id="resume"
-          type="file"
-          onChange={(e) => handleChange(e)}
-        />
+    <Div>
+      <Title>Your Resume</Title>
+      <Description>
+        Upload your resume in PDF format to analyze how well it matches the job
+        requirements.
+      </Description>
+      <Input
+        type="file"
+        id="resume"
+        name="resume"
+        accept=".pdf"
+        onChange={handleChange}
+      />
+      <Label htmlFor="resume">
+        <UploadIcon>📄</UploadIcon>
+        <UploadText>Click to upload your resume (PDF)</UploadText>
+      </Label>
 
-        {resumeUrl && <ResumeViewerComponent resumeUrl={resumeUrl} />}
-      </ResumeComp>
-    </>
+      {resumeUrl && <ResumeViewerComponent resumeUrl={resumeUrl} />}
+    </Div>
   );
 }
 

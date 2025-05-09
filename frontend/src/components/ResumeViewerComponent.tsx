@@ -4,7 +4,7 @@ const ViewerContainer = styled.div`
   width: 100%;
   height: 800px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
