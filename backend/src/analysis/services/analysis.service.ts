@@ -17,14 +17,13 @@ export class AnalysisService {
 
   async createAnalysis(
     analysisDto: AnalysisDto,
+    resume: Express.Multer.File,
   ): Promise<AnalysisResponse | null> {
-    const analysis = await this.analysisRepository.create(analysisDto);
-
     const jobDescriptionSummary = await this.summarizeJobDescription(
       analysisDto.jobDescription,
     );
 
-    const resumeSummary = await this.summarizeResume(analysis.resume.fileName);
+    const resumeSummary = await this.summarizeResume(resume);
 
     if (!jobDescriptionSummary || !resumeSummary) {
       return null;
@@ -86,20 +85,25 @@ export class AnalysisService {
     if (!content) {
       return null;
     }
+    const analysisResponse = JSON.parse(content) as AnalysisResponse;
+
+    this.analysisRepository.create(
+      analysisDto,
+      resumeSummary,
+      analysisResponse.matchPercentage,
+    );
 
     try {
-      return JSON.parse(content) as AnalysisResponse;
+      return analysisResponse;
     } catch (error) {
       console.error('Failed to parse analysis response:', error);
       return null;
     }
   }
 
-  async summarizeResume(fileName: string): Promise<string | null> {
-    const resumePath = path.join(process.cwd(), 'uploads', 'resumes', fileName);
-    const fileBuffer = fs.readFileSync(resumePath);
+  async summarizeResume(file: Express.Multer.File): Promise<string | null> {
     try {
-      const pdfData = await pdfParse(fileBuffer);
+      const pdfData = await pdfParse(file.buffer);
       const resumeText = pdfData.text;
 
       const prompt = `Summarize the following resume:\n\n${resumeText}`;
