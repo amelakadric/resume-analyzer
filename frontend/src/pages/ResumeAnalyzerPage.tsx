@@ -1,12 +1,10 @@
 import { useState } from "react";
 import ResumeComponent from "../components/ResumeComponent";
-import { postResume } from "../services/resumeService";
 import styled from "styled-components";
 import JobDescriptionComponent from "../components/JobDescriptionComponent";
-import { postAnalysis } from "../services/analysisService";
 import { AnalysisRequest, AnalysisResponse } from "../types/analysis.types";
-import { ResumeUploadResponse } from "../types/resume.types";
 import AnalysisResultComponent from "../components/AnalysisResultComponent";
+import { postAnalysis } from "../services/analysisService";
 
 const ResumePage = styled.div`
   display: flex;
@@ -53,30 +51,29 @@ function ResumeAnalyzerPage() {
     setResume(file);
   }
 
-  async function handleSubmit() {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resume || !jobDescription) return;
+
     setIsLoading(true);
     try {
-      if (resume) {
-        const formData = new FormData();
-        formData.append("file", resume);
-        const response = (await postResume(formData)) as ResumeUploadResponse;
+      const analysisRequestData: AnalysisRequest = {
+        resume: resume,
+        jobDescription: jobDescription,
+      };
 
-        const analysisData: AnalysisRequest = {
-          resumeId: response._id,
-          jobDescription: jobDescription,
-        };
+      const response = (await postAnalysis(
+        analysisRequestData
+      )) as AnalysisResponse;
 
-        const analysisResponse = (await postAnalysis(
-          analysisData
-        )) as AnalysisResponse;
-        setAnalysisResult(analysisResponse);
-      }
+      setAnalysisResult(response);
     } catch (error) {
-      console.log("Error uploading resume");
+      console.log(error);
+      console.log("Error analyzing resume");
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <>

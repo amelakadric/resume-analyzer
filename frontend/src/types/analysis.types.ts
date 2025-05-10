@@ -1,7 +1,7 @@
-export type AnalysisRequest = {
-  resumeId: string;
+export interface AnalysisRequest {
+  resume: File;
   jobDescription: string;
-};
+}
 
 export type AnalysisResponse = {
   summary: {
@@ -21,4 +21,11 @@ export type AnalysisResponse = {
     title: string;
     items: string[];
   };
+};
+
+export const createAnalysisFormData = (data: AnalysisRequest): FormData => {
+  const formData = new FormData();
+  formData.append("resume", data.resume);
+  formData.append("jobDescription", data.jobDescription);
+  return formData;
 };

@@ -1,8 +1,11 @@
-import { AnalysisRequest } from "../types/analysis.types";
 import { httpService } from "./httpService";
+import {
+  AnalysisRequest,
+  createAnalysisFormData,
+} from "../types/analysis.types";
 
 export const postAnalysis = async (data: AnalysisRequest) => {
-  const response = await httpService.post(`analysis`, data, {});
-
+  const formData = createAnalysisFormData(data);
+  const response = await httpService.post(`analysis`, formData, {});
   return response.data;
 };
