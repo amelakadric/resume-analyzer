@@ -6,10 +6,26 @@ import { AnalysisRequest, AnalysisResponse } from "../types/analysis.types";
 import AnalysisResultComponent from "../components/AnalysisResultComponent";
 import { postAnalysis } from "../services/analysisService";
 
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+`;
+
+const Heading = styled.h1`
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+`;
+
 const ResumePage = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  width: 100%;
 `;
 
 const Button = styled.button`
@@ -76,7 +92,8 @@ function ResumeAnalyzerPage() {
   };
 
   return (
-    <>
+    <PageContainer>
+      <Heading>Resume Analyzer</Heading>
       <ResumePage>
         <ResumeComponent handleSetResume={handleSetResume} />
 
@@ -97,7 +114,7 @@ function ResumeAnalyzerPage() {
         analysis={analysisResult}
         isLoading={isLoading}
       />
-    </>
+    </PageContainer>
   );
 }
 
