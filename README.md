@@ -138,13 +138,9 @@ The application is deployed using:
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👥 Authors
 
-- Your Name - Initial work
+- Amela Kadric Muminovic - Initial work
 
 ## 🙏 Acknowledgments
 
